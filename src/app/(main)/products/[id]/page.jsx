@@ -4,41 +4,43 @@ import ProductDetails from "@/components/products/product-details";
 import ProductsInsameCategory from "@/components/products/products-in-same-category";
 import { config } from "@/utils/config";
 import React from "react";
+
 export const generateMetadata = async ({ params }) => {
-  const productId = params.id;
-  if (!productId || isNaN(productId)) throw new Error("ProductId is invalid");
+	const productId = params.id;
+	if (!productId || isNaN(productId)) throw new Error("ProductId is invalid");
 
-  const resProduct = (
-    await fetch(`${config.apiURL}/products/${productId}`)
-  ).json();
+	const res = await fetch(`${config.apiURL}/products/${productId}`);
+	const product = await res.json();
 
-  const resProducts = (await fetch(`${config.apiURL}/products/`)).json();
-
-  const [product, products] = await Promise.all([resProduct, resProducts]);
-
-  return {
-    title: product.title,
-    description: product.description,
-  };  
+	return {
+		title: product.title,
+		description: product.description,
+	};
 };
 
 const ProductDetailsPage = async ({ params }) => {
-  const productId = params.id;
-  if (!productId || isNaN(productId)) throw new Error("ProductId is invalid");
-  const resProduct = (
-    await fetch(`${config.apiURL}/products/${productId}`)
-  ).json();
-  const resProducts = (await fetch(`${config.apiURL}/products`)).json();
-  const [product, products] = await Promise.all([resProduct, resProducts]);
-  return (
-    <div>
-      <PageHeader title={product.title} />
-      <Spacer height={50} />
-      <ProductDetails product={product} />
-      <Spacer />
-      <ProductsInsameCategory products={products} />
-      <Spacer />
-    </div>
-  );
+	const productId = params.id;
+
+	if (!productId || isNaN(productId)) throw new Error("ProductId is invalid");
+
+	const resProduct = (
+		await fetch(`${config.apiURL}/products/${productId}`)
+	).json();
+
+	const resProducts = (await fetch(`${config.apiURL}/products`)).json();
+
+	const [product, products] = await Promise.all([resProduct, resProducts]);
+
+	return (
+		<div>
+			<PageHeader title={product.title} />
+			<Spacer height={50} />
+			<ProductDetails product={product} />
+			<Spacer />
+			<ProductsInsameCategory products={products} />
+			<Spacer />
+		</div>
+	);
 };
+
 export default ProductDetailsPage;

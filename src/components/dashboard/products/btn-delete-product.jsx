@@ -5,29 +5,28 @@ import { Button } from "react-bootstrap";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 const BtnDeleteProduct = ({ id }) => {
-  const handleClick = async () => {
-    const answer = confirm("Are you sure to delete?");
+	const handleClick = async () => {
+		const answer = confirm("Are you sure to delete?");
+		if (!answer) return;
 
-    if (!answer) return;
-
-    try {
-      const res = await deleteProductAction(id);
-      if (res.errors.common){
-
-		alert(res.errors.common);
+		try{
+			const res = await deleteProductAction(id);
+			if(res.errors.common){
+				alert(res.errors.common)
+			}
+		}
+		catch(error){
+			console.log(error)
+			
+		}
 		
-	  }
-    } catch (error) {
-      console.log(error);
-	  
-    }
-  };
+	};
 
-  return (
-    <Button variant="link" onClick={handleClick}>
-      <FaRegTrashAlt />
-    </Button>
-  );
+	return (
+		<Button variant="link" onClick={handleClick}>
+			<FaRegTrashAlt />
+		</Button>
+	);
 };
 
 export default BtnDeleteProduct;

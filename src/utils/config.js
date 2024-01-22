@@ -1,3 +1,3 @@
 export const config = {
-  apiURL: "https://65a6f51094c2c5762da616df.mockapi.io/api",
+	apiURL: "https://65775f19197926adf62e1c85.mockapi.io/api/v1",
 };

@@ -4,13 +4,22 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import menuItems from "./menu.json";
 import Link from "next/link";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 const Header = () => {
+	const { data: session } = useSession();
+	console.log(session);
+
 	return (
 		<Navbar expand="lg" bg="dark" data-bs-theme="dark" collapseOnSelect>
 			<Container>
 				<Navbar.Brand href="/" as={Link}>
-					<Image src="/images/logo.png" alt="Cosmo Shop" width={272} height={43}/>
+					<Image
+						src="/images/logo.png"
+						alt="Cosmo Shop"
+						width={272}
+						height={43}
+					/>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
@@ -23,7 +32,11 @@ const Header = () => {
 					</Nav>
 				</Navbar.Collapse>
 
-                <Link href="/dashboard">Dashboard</Link>
+				{session?.user ? (
+					<Link href="/dashboard">Dashboard</Link>
+				) : (
+					<Link href="/login">Login</Link>
+				)}
 			</Container>
 		</Navbar>
 	);
